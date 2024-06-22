@@ -20,7 +20,15 @@ class ArticleComment(
     @JoinColumn(name = "article_id")
     val article: Article,
 ) : BaseTimeEntity() {
+
+    fun getPath(): String {
+        return "${parentPath}/${id}"
+    }
+
     companion object {
+        fun getRootPath(): String {
+            return "/"
+        }
         fun create(
             command: ArticleCommentCommand.Create,
             author: User,
