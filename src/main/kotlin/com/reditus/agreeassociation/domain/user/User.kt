@@ -1,8 +1,11 @@
 package com.reditus.agreeassociation.domain.user
 
 import com.reditus.agreeassociation.domain.BaseTimeEntity
+import com.reditus.agreeassociation.domain.util.SelfValidating
 import com.reditus.agreeassociation.global.jwt.Role
 import jakarta.persistence.*
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "users")
@@ -35,16 +38,4 @@ class User(
             )
         }
     }
-}
-
-class UserCommand{
-    class Create(
-        val email: String,
-        val password: String,
-        val nickname: String,
-    )
-    class Patch(
-        val nickname: String?,
-        val profileImageUrl: String?,
-    )
 }

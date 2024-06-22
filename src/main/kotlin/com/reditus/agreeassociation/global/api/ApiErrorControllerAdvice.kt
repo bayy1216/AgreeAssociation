@@ -1,6 +1,7 @@
 package com.reditus.agreeassociation.global.api
 
 import com.reditus.agreeassociation.global.exception.NotAuthorizationException
+import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -22,7 +23,17 @@ class ApiErrorControllerAdvice {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun constraintViolationException(e: ConstraintViolationException): ApiResponse<Unit> {
+        log.info("ConstraintViolationException", e)
+        return ApiResponse.fail(
+            message = e.message ?: "COMMON-CONSTRAINT-VIOLATION-EXCEPTION",
+            errorCode = "COMMON-CONSTRAINT-VIOLATION",
+        )
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun illegalStateException(e: IllegalStateException): ApiResponse<Unit> {
         log.error("IllegalStateException", e)
         return ApiResponse.fail(
