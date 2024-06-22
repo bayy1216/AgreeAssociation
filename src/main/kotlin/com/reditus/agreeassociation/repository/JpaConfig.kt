@@ -1,4 +1,4 @@
-package com.reditus.profilegen.infrastructure
+package com.reditus.agreeassociation.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

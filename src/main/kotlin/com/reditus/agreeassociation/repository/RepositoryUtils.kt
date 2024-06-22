@@ -1,4 +1,4 @@
-package com.reditus.profilegen.infrastructure
+package com.reditus.agreeassociation.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.findByIdOrNull
