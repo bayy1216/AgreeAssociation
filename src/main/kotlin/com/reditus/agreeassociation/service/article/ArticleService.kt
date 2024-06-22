@@ -51,9 +51,19 @@ class ArticleService(
         return articlePage.map(ArticleRes.ArticleDto::from)
     }
 
+    /**
+     * 게시글 상세 조회
+     * 1. 조회수 증가
+     * 2. 게시글 조회
+     */
     @Transactional
     fun getArticleDetail(articleId: Long): ArticleRes.ArticleDetailDto {
-        TODO()
+        articleRepository.addViewsCountById(articleId)
+
+        val article = articleRepository.findByIdOrThrow(articleId)
+        val agreesCount = articleAgreeRepository.countByArticleId(articleId)
+        val disagreesCount = articleDisagreeRepository.countByArticleId(articleId)
+        return ArticleRes.ArticleDetailDto.from(article, agreesCount, disagreesCount)
     }
 
     @Transactional
@@ -61,6 +71,7 @@ class ArticleService(
         val user = userRepository.findByIdOrThrow(userId)
         val article = articleRepository.findByIdOrThrow(articleId)
         val agree = ArticleAgree(article = article, user = user)
+
         articleAgreeRepository.save(agree)
         return articleAgreeRepository.countByArticleId(articleId)
     }
@@ -70,6 +81,7 @@ class ArticleService(
         val user = userRepository.findByIdOrThrow(userId)
         val article = articleRepository.findByIdOrThrow(articleId)
         val disAgree = ArticleDisagree(article = article, user = user)
+
         articleDisagreeRepository.save(disAgree)
         return articleDisagreeRepository.countByArticleId(articleId)
     }

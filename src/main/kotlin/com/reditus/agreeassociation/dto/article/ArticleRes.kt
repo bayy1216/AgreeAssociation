@@ -32,10 +32,30 @@ class ArticleRes {
     data class ArticleDetailDto(
         val id: Long,
         val title: String,
-        val content: String,
-        val status: String,
+        val status: ArticleStatus,
         val viewsCount: Long,
-        val createdAt: String,
+        val createdAt: LocalDateTime,
         val author: UserRes.UserInfoDto,
-    )
+
+        val content: String,
+        val agreesCount: Long,
+        val disagreesCount: Long,
+    ){
+        companion object {
+            fun from(article: Article, agreesCount: Long, disagreesCount: Long): ArticleDetailDto {
+                val author = UserRes.UserInfoDto.from(article.author)
+                return ArticleDetailDto(
+                    id = article.id!!,
+                    title = article.title,
+                    status = article.articleStatus,
+                    viewsCount = article.viewsCount,
+                    createdAt = LocalDateTime.from(article.createdAt),
+                    author = author,
+                    content = article.content,
+                    agreesCount = agreesCount,
+                    disagreesCount = disagreesCount,
+                )
+            }
+        }
+    }
 }
