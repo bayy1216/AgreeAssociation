@@ -50,4 +50,33 @@ class ArticleController(
         val res =  articleService.getArticlePaging(req, sort)
         return ApiResponse.success(res)
     }
+
+    @Operation(summary = "게시글 상세 조회", description = "게시글을 상세 조회합니다.")
+    @GetMapping("/api/article/{articleId}")
+    fun getArticleDetail(
+        @PathVariable articleId: Long
+    ) : ApiResponse<ArticleRes.ArticleDetailDto> {
+        val res =  articleService.getArticleDetail(articleId)
+        return ApiResponse.success(res)
+    }
+
+    @Operation(summary = "게시글 인정", description = "게시글을 인정 후, 인정 수 반환.")
+    @PostMapping("/api/article/{articleId}/agree")
+    fun agreeArticle(
+        @AuthenticationPrincipal jwtUser: JwtUser,
+        @PathVariable articleId: Long
+    ) : ApiResponse<Long> {
+        val res =  articleService.agreeArticle(jwtUser.id, articleId)
+        return ApiResponse.success(res)
+    }
+
+    @Operation(summary = "게시글 비인정", description = "게시글을 비인정 후, 인정 수 반환.")
+    @PostMapping("/api/article/{articleId}/disagree")
+    fun disagreeArticle(
+        @AuthenticationPrincipal jwtUser: JwtUser,
+        @PathVariable articleId: Long
+    ) : ApiResponse<Long> {
+        val res =  articleService.disagreeArticle(jwtUser.id, articleId)
+        return ApiResponse.success(res)
+    }
 }

@@ -1,10 +1,14 @@
 package com.reditus.agreeassociation.service.article
 
 import com.reditus.agreeassociation.domain.article.Article
+import com.reditus.agreeassociation.domain.article.ArticleAgree
 import com.reditus.agreeassociation.domain.article.ArticleCommand
+import com.reditus.agreeassociation.domain.article.ArticleDisagree
 import com.reditus.agreeassociation.dto.PagingReq
 import com.reditus.agreeassociation.dto.article.ArticleReq
 import com.reditus.agreeassociation.dto.article.ArticleRes
+import com.reditus.agreeassociation.repository.article.ArticleAgreeRepository
+import com.reditus.agreeassociation.repository.article.ArticleDisagreeRepository
 import com.reditus.agreeassociation.repository.article.ArticleQueryRepository
 import com.reditus.agreeassociation.repository.article.ArticleRepository
 import com.reditus.agreeassociation.repository.findByIdOrThrow
@@ -17,6 +21,8 @@ class ArticleService(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
     private val articleQueryRepository: ArticleQueryRepository,
+    private val articleAgreeRepository: ArticleAgreeRepository,
+    private val articleDisagreeRepository: ArticleDisagreeRepository,
 ) {
 
     @Transactional
@@ -43,5 +49,28 @@ class ArticleService(
     fun getArticlePaging(req: PagingReq, sort: ArticleCommand.PagingSort): List<ArticleRes.ArticleDto> {
         val articlePage = articleQueryRepository.getArticlePaging(req.toPageable(), sort)
         return articlePage.map(ArticleRes.ArticleDto::from)
+    }
+
+    @Transactional
+    fun getArticleDetail(articleId: Long): ArticleRes.ArticleDetailDto {
+        TODO()
+    }
+
+    @Transactional
+    fun agreeArticle(userId: Long, articleId: Long): Long {
+        val user = userRepository.findByIdOrThrow(userId)
+        val article = articleRepository.findByIdOrThrow(articleId)
+        val agree = ArticleAgree(article = article, user = user)
+        articleAgreeRepository.save(agree)
+        return articleAgreeRepository.countByArticleId(articleId)
+    }
+
+    @Transactional
+    fun disagreeArticle(userId: Long, articleId: Long): Long {
+        val user = userRepository.findByIdOrThrow(userId)
+        val article = articleRepository.findByIdOrThrow(articleId)
+        val disAgree = ArticleDisagree(article = article, user = user)
+        articleDisagreeRepository.save(disAgree)
+        return articleDisagreeRepository.countByArticleId(articleId)
     }
 }
