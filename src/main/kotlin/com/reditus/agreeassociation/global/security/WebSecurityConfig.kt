@@ -37,6 +37,7 @@ class WebSecurityConfig(
             webSecurity.ignoring()
                 .requestMatchers("/v3/api-docs/**")
                 .requestMatchers("/swagger-ui/**")
+                .requestMatchers("/h2-console/**")
         }
     }
 

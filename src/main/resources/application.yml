@@ -20,12 +20,6 @@ spring: # test profile
     redis: # redis auto-config ?? (RedisProperties ? ???? ??)
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-  rabbitmq: # rabbitmq auto-config ?? (ConnectionFactory ? ???? ??)
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USERNAME:admin}
-    password: ${RABBITMQ_PASSWORD:admin}
-    ssl.enabled: ${RABBITMQ_SSL_ENABLED:false} # SSL ?? ?? (ampq vs amqps)
 logging:
   level.org.hibernate:
     orm.jdbc.bind: trace
@@ -37,11 +31,6 @@ jwt:
   secret: ${JWT_SECRET:b9ba604a99274bf89bfafdaf95ae5a9bdasdsafassaf}
   access-token-expire-time: 1800000 # 30 minutes
   refresh-token-expire-time: 2592000000 # 30 days
-rabbitmq:
-  queue.name: analyze.repo.request.queue
-  exchange.name: analyze.repo.request.topic
-  routing.key: analyze.repo.request.#
-  result.queue.name: analyze.repo.result.queue
 server:
   shutdown: graceful
   tomcat:
