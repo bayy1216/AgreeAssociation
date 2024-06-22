@@ -1,0 +1,66 @@
+spring: # test profile
+  datasource:
+    url: "jdbc:h2:mem:agree;"
+    username: "sa"
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  data:
+    redis: # redis auto-config ?? (RedisProperties ? ???? ??)
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  rabbitmq: # rabbitmq auto-config ?? (ConnectionFactory ? ???? ??)
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin}
+    ssl.enabled: ${RABBITMQ_SSL_ENABLED:false} # SSL ?? ?? (ampq vs amqps)
+logging:
+  level.org.hibernate:
+    orm.jdbc.bind: trace
+    SQL: debug
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+jwt:
+  secret: ${JWT_SECRET:b9ba604a99274bf89bfafdaf95ae5a9bdasdsafassaf}
+  access-token-expire-time: 1800000 # 30 minutes
+  refresh-token-expire-time: 2592000000 # 30 days
+rabbitmq:
+  queue.name: analyze.repo.request.queue
+  exchange.name: analyze.repo.request.topic
+  routing.key: analyze.repo.request.#
+  result.queue.name: analyze.repo.result.queue
+server:
+  shutdown: graceful
+  tomcat:
+    connection-timeout: 300000 # 300 seconds
+---
+spring: # local profile
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      defer-datasource-initialization: true
+  sql.init.mode: always
