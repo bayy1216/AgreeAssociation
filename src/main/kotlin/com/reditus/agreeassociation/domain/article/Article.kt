@@ -14,7 +14,7 @@ class Article(
     var content: String,
 
     @Enumerated(EnumType.STRING)
-    var articleStatus: ArticleStatus = ArticleStatus.NOTHING,
+    var articleStatus: ArticleStatus = ArticleStatus.PENDING,
 
     var viewsCount: Long = 0,
 
@@ -22,13 +22,18 @@ class Article(
     @JoinColumn(name = "author_id")
     val author: User,
 ) : BaseTimeEntity() {
+    fun update(command: ArticleCommand.Update) {
+        this.title = command.title
+        this.content = command.content
+    }
+
     companion object {
         fun create(command: ArticleCommand.Create, author: User): Article {
             return Article(
                 title = command.title,
                 content = command.content,
                 author = author,
-                articleStatus = ArticleStatus.NOTHING,
+                articleStatus = ArticleStatus.PENDING,
                 viewsCount = 0
             )
         }

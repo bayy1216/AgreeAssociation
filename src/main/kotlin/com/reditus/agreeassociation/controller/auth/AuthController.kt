@@ -23,7 +23,7 @@ class AuthController(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/auth/signup")
     fun signup(
-        @Valid @RequestBody request: AuthReq.EmailSignUpRequest
+        @Valid @RequestBody request: AuthReq.EmailSignUp
     ) : ApiResponse<AuthRes.LoginResponse>{
         val res =  authService.signup(request)
         return ApiResponse.success(res)
@@ -32,7 +32,7 @@ class AuthController(
     @Operation(summary = "이메일 로그인", description = "jwt와 user 정보를 반환합니다.")
     @PostMapping("/api/auth/login")
     fun emailLogin(
-        @Valid @RequestBody request: AuthReq.EmailLoginRequest
+        @Valid @RequestBody request: AuthReq.EmailLogin
     ) : ApiResponse<AuthRes.LoginResponse>{
         val res =  authService.emailLogin(request)
         return ApiResponse.success(res)

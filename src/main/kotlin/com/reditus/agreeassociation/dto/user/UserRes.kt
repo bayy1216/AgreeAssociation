@@ -22,4 +22,21 @@ class UserRes {
             }
         }
     }
+
+    data class UserInfoDto(
+        val id: Long,
+        val nickname: String,
+        val profileImageUrl: String?,
+    ){
+        companion object {
+            fun from(user: User): UserInfoDto {
+                return UserInfoDto(
+                    id = user.id!!,
+                    nickname = user.nickname,
+                    profileImageUrl = user.profileImageUrl,
+                )
+            }
+        }
+    }
+
 }

@@ -3,12 +3,12 @@ package com.reditus.agreeassociation.dto.auth
 import com.reditus.agreeassociation.domain.user.UserCommand
 
 class AuthReq {
-    data class EmailLoginRequest(
+    data class EmailLogin(
         val email: String,
         val password: String,
     )
 
-    data class EmailSignUpRequest(
+    data class EmailSignUp(
         val email: String,
         val password: String,
         val nickname: String,

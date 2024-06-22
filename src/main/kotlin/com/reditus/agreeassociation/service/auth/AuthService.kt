@@ -22,7 +22,7 @@ class AuthService(
      * 2. 비밀번호를 암호화하여 저장
      * 3. 토큰을 생성하여 반환
      */
-    fun signup(request: AuthReq.EmailSignUpRequest): AuthRes.LoginResponse {
+    fun signup(request: AuthReq.EmailSignUp): AuthRes.LoginResponse {
         if(userRepository.existsByEmail(request.email)) {
             throw IllegalArgumentException("이미 가입된 이메일입니다.")
         }
@@ -39,7 +39,7 @@ class AuthService(
      * 2. 비밀번호가 일치하는지 확인
      * 3. 토큰을 생성하여 반환
      */
-    fun emailLogin(request: AuthReq.EmailLoginRequest): AuthRes.LoginResponse {
+    fun emailLogin(request: AuthReq.EmailLogin): AuthRes.LoginResponse {
         val user = userRepository.findByEmail(request.email)
             ?: throw IllegalArgumentException("가입되지 않은 이메일입니다.")
         if(!bCryptPasswordEncoder.matches(request.password, user.password)) {
