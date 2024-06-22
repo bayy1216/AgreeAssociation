@@ -9,8 +9,8 @@ class ArticleComment(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    val content: String,
-    val path: String,
+    var content: String,
+    val parentPath: String,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], optional = false)
     @JoinColumn(name = "author_id")
@@ -19,6 +19,20 @@ class ArticleComment(
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], optional = false)
     @JoinColumn(name = "article_id")
     val article: Article,
+) : BaseTimeEntity() {
+    companion object {
+        fun create(
+            command: ArticleCommentCommand.Create,
+            author: User,
+            article: Article,
+        ): ArticleComment {
+            return ArticleComment(
+                content = command.content,
+                parentPath = command.parentPath,
+                author = author,
+                article = article
+            )
+        }
+    }
 
-) :BaseTimeEntity(){
 }
