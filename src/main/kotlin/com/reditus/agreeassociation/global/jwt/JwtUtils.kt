@@ -1,6 +1,6 @@
 package com.reditus.agreeassociation.global.jwt
 
-import com.reditus.agreeassociation.global.exception.NotAuthorizationException
+import com.reditus.agreeassociation.global.exception.NoAuthenticationException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
@@ -69,7 +69,7 @@ class JwtUtils(
         try{
             return Jwts.parser().verifyWith(key).build().parse(rawToken).payload as Claims
         }catch (e: Exception){
-            throw NotAuthorizationException("토큰이 유효하지 않습니다.")
+            throw NoAuthenticationException("토큰이 유효하지 않습니다.")
         }
     }
 

@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 
 
@@ -26,8 +27,10 @@ class AuthorizationJwtHeaderFilter(authenticationManager: AuthenticationManager?
             return
         }
         val rawToken = header.replace("Bearer ", "")
-        val auth = JwtAuthenticationToken(rawToken)
-        super.getAuthenticationManager().authenticate(auth) // Manager에게 JwtAuthenticationToken을 전달하여 인증을 시도
+        val authRequest = JwtAuthenticationToken(rawToken)
+        val authResult = authenticationManager.authenticate(authRequest)
+
+        SecurityContextHolder.getContext().authentication = authResult
         chain.doFilter(request, response)
     }
 

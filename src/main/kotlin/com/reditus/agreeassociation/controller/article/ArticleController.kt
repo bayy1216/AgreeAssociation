@@ -5,7 +5,7 @@ import com.reditus.agreeassociation.dto.PagingReq
 import com.reditus.agreeassociation.dto.article.ArticleReq
 import com.reditus.agreeassociation.dto.article.ArticleRes
 import com.reditus.agreeassociation.global.api.ApiResponse
-import com.reditus.agreeassociation.global.jwt.JwtUser
+import com.reditus.agreeassociation.global.security.LoginUserDetails
 import com.reditus.agreeassociation.service.article.ArticleService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -23,21 +23,21 @@ class ArticleController(
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/article")
     fun createArticle(
-        @AuthenticationPrincipal jwtUser: JwtUser,
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @Valid @RequestBody request: ArticleReq.Create
     ) : ApiResponse<Long> {
-        val res =  articleService.createArticle(jwtUser.id, request)
+        val res =  articleService.createArticle(loginUserDetails.userId, request)
         return ApiResponse.success(res)
     }
 
     @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
     @PostMapping("/api/article/{articleId}")
     fun updateArticle(
-        @AuthenticationPrincipal jwtUser: JwtUser,
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @Valid @RequestBody request: ArticleReq.Update,
         @PathVariable articleId: Long
     ) : ApiResponse<Unit> {
-        articleService.updateArticle(jwtUser.id, articleId, request)
+        articleService.updateArticle(loginUserDetails.userId, articleId, request)
         return ApiResponse.success(Unit)
     }
 
@@ -63,20 +63,20 @@ class ArticleController(
     @Operation(summary = "게시글 인정", description = "게시글을 인정 후, 인정 수 반환.")
     @PostMapping("/api/article/{articleId}/agree")
     fun agreeArticle(
-        @AuthenticationPrincipal jwtUser: JwtUser,
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @PathVariable articleId: Long
     ) : ApiResponse<Long> {
-        val res =  articleService.agreeArticle(jwtUser.id, articleId)
+        val res =  articleService.agreeArticle(loginUserDetails.userId, articleId)
         return ApiResponse.success(res)
     }
 
     @Operation(summary = "게시글 비인정", description = "게시글을 비인정 후, 인정 수 반환.")
     @PostMapping("/api/article/{articleId}/disagree")
     fun disagreeArticle(
-        @AuthenticationPrincipal jwtUser: JwtUser,
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @PathVariable articleId: Long
     ) : ApiResponse<Long> {
-        val res =  articleService.disagreeArticle(jwtUser.id, articleId)
+        val res =  articleService.disagreeArticle(loginUserDetails.userId, articleId)
         return ApiResponse.success(res)
     }
 }

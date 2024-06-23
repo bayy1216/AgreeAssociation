@@ -1,6 +1,6 @@
 package com.reditus.agreeassociation.global.api
 
-import com.reditus.agreeassociation.global.exception.NotAuthorizationException
+import com.reditus.agreeassociation.global.exception.NoAuthenticationException
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -44,7 +44,7 @@ class ApiErrorControllerAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    fun jwtException(e: NotAuthorizationException): ApiResponse<Unit> {
+    fun jwtException(e: NoAuthenticationException): ApiResponse<Unit> {
         return ApiResponse.fail(
             message = e.message ?: "COMMON-UNAUTHORIZED-EXCEPTION",
             errorCode = "UNAUTHORIZED",

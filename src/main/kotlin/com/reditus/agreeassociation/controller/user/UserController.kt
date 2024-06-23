@@ -2,7 +2,7 @@ package com.reditus.agreeassociation.controller.user
 
 import com.reditus.agreeassociation.dto.user.UserRes
 import com.reditus.agreeassociation.global.api.ApiResponse
-import com.reditus.agreeassociation.global.jwt.JwtUser
+import com.reditus.agreeassociation.global.security.LoginUserDetails
 import com.reditus.agreeassociation.service.user.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -19,9 +19,9 @@ class UserController(
     @Operation(summary = "유저 정보 조회", description = "로그인한 유저의 정보를 조회합니다.")
     @GetMapping("/api/user")
     fun getUserInfo(
-        @AuthenticationPrincipal jwtUser: JwtUser
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails
     ):ApiResponse<UserRes.UserDto> {
-        val res = userService.getUserInfo(jwtUser.id)
+        val res = userService.getUserInfo(loginUserDetails.userId)
         return ApiResponse.success(res)
     }
 }
