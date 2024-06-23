@@ -4,6 +4,7 @@ import com.reditus.agreeassociation.domain.user.User
 import jakarta.persistence.*
 
 @Entity
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["article_id", "user_id"])])
 class ArticleDisagree(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

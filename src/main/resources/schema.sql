@@ -42,6 +42,7 @@ CREATE TABLE article_agree
     article_id BIGINT NOT NULL,
     user_id    BIGINT NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE KEY `unique_user_article` (`article_id`,`user_id`),
     FOREIGN KEY (article_id) REFERENCES article (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
@@ -67,6 +68,7 @@ CREATE TABLE article_disagree
     id         BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     user_id    BIGINT NOT NULL,
+    UNIQUE KEY `unique_user_article` (`article_id`,`user_id`),
     PRIMARY KEY (id),
     FOREIGN KEY (article_id) REFERENCES article (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
