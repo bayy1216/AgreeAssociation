@@ -1,6 +1,6 @@
 spring: # test profile
   datasource:
-    url: "jdbc:h2:mem:agree;"
+    url: "jdbc:h2:mem:agree;MODE=MYSQL"
     username: "sa"
     password: ""
     driver-class-name: org.h2.Driver
@@ -12,6 +12,7 @@ spring: # test profile
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+      defer-datasource-initialization: true
   h2:
     console:
       enabled: true
@@ -20,6 +21,7 @@ spring: # test profile
     redis: # redis auto-config ?? (RedisProperties ? ???? ??)
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
+  sql.init.mode: never
 logging:
   level.org.hibernate:
     orm.jdbc.bind: trace
@@ -47,9 +49,9 @@ spring: # local profile
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
       defer-datasource-initialization: true
-  sql.init.mode: always
+  sql.init.mode: never

@@ -9,13 +9,14 @@ class Article(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
+    @Column(nullable = false, length = 255)
     var title: String,
-
+    @Column(nullable = false, length = 16000)
     var content: String,
 
     @Enumerated(EnumType.STRING)
     var articleStatus: ArticleStatus = ArticleStatus.PENDING,
-
+    @Column(nullable = false)
     var viewsCount: Long = 0,
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], optional = false)

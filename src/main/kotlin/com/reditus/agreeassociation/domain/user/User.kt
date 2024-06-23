@@ -12,12 +12,18 @@ import jakarta.validation.constraints.NotBlank
 class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
+    @Enumerated(EnumType.STRING)
     var role: Role,
 
+    @Column(unique = true, nullable = false, length = 255)
     var email: String,
+    @Column(nullable = false, length = 255)
     var password: String,
+    @Column(nullable = false, length = 20)
     var nickname: String,
+    @Column(nullable = false)
     var point: Int,
+    @Column(length = 150)
     var profileImageUrl: String?,
 ) : BaseTimeEntity(){
 
