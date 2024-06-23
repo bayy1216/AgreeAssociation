@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleDisagreeRepository: JpaRepository<ArticleDisagree, Long> {
     fun countByArticleId(articleId: Long): Long
+    fun existsByUserIdAndArticleId(userId: Long, articleId: Long): Boolean
 }

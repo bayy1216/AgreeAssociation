@@ -70,6 +70,13 @@ class ArticleService(
     fun agreeArticle(userId: Long, articleId: Long): Long {
         val user = userRepository.findByIdOrThrow(userId)
         val article = articleRepository.findByIdOrThrow(articleId)
+        if(articleAgreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
+            throw IllegalArgumentException("이미 추천한 게시글입니다.")
+        }
+        if(articleDisagreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
+            throw IllegalArgumentException("반대한 게시글은 추천할 수 없습니다.")
+        }
+
         val agree = ArticleAgree(article = article, user = user)
 
         articleAgreeRepository.save(agree)
@@ -80,6 +87,13 @@ class ArticleService(
     fun disagreeArticle(userId: Long, articleId: Long): Long {
         val user = userRepository.findByIdOrThrow(userId)
         val article = articleRepository.findByIdOrThrow(articleId)
+        if(articleDisagreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
+            throw IllegalArgumentException("이미 반대한 게시글입니다.")
+        }
+        if(articleAgreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
+            throw IllegalArgumentException("추천한 게시글은 반대할 수 없습니다.")
+        }
+
         val disAgree = ArticleDisagree(article = article, user = user)
 
         articleDisagreeRepository.save(disAgree)
