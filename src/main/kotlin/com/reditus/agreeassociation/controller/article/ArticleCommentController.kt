@@ -18,7 +18,7 @@ class ArticleCommentController(
     private val articleCommentService: ArticleCommentService
 ) {
     @Operation(summary = "게시글 댓글 작성", description = "게시글 댓글을 작성합니다.")
-    @PostMapping("/api/article/{articleId}/comment")
+    @PostMapping("/api/articles/{articleId}/comments")
     fun createArticleComment(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @PathVariable articleId: Long,
@@ -28,7 +28,7 @@ class ArticleCommentController(
         return ApiResponse.success(id)
     }
 
-    @GetMapping("/api/article/{articleId}/comment")
+    @GetMapping("/api/articles/{articleId}/comments")
     fun getArticleComments(
         @PathVariable articleId: Long,
         pagingReq: PagingReq

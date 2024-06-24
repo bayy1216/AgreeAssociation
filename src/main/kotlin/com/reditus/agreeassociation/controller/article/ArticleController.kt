@@ -21,7 +21,7 @@ class ArticleController(
 ) {
     @Operation(summary = "게시글 작성", description = "게시글을 작성 후, 게시글 id 반환.")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/api/article")
+    @PostMapping("/api/articles")
     fun createArticle(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @Valid @RequestBody request: ArticleReq.Create
@@ -31,7 +31,7 @@ class ArticleController(
     }
 
     @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
-    @PostMapping("/api/article/{articleId}")
+    @PostMapping("/api/articles/{articleId}")
     fun updateArticle(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @Valid @RequestBody request: ArticleReq.Update,
@@ -42,7 +42,7 @@ class ArticleController(
     }
 
     @Operation(summary = "게시글 페이징 조회", description = "게시글을 페이징 조회합니다.")
-    @GetMapping("/api/article")
+    @GetMapping("/api/articles")
     fun getArticlePaging(
         req: PagingReq,
         sort: ArticleCommand.PagingSort = ArticleCommand.PagingSort.CREATED_AT_DESC
@@ -52,7 +52,7 @@ class ArticleController(
     }
 
     @Operation(summary = "게시글 상세 조회", description = "게시글을 상세 조회합니다.")
-    @GetMapping("/api/article/{articleId}")
+    @GetMapping("/api/articles/{articleId}")
     fun getArticleDetail(
         @PathVariable articleId: Long
     ) : ApiResponse<ArticleRes.ArticleDetailDto> {
@@ -61,7 +61,7 @@ class ArticleController(
     }
 
     @Operation(summary = "게시글 인정", description = "게시글을 인정 후, 인정 수 반환.")
-    @PostMapping("/api/article/{articleId}/agree")
+    @PostMapping("/api/articles/{articleId}/agree")
     fun agreeArticle(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @PathVariable articleId: Long
@@ -71,7 +71,7 @@ class ArticleController(
     }
 
     @Operation(summary = "게시글 비인정", description = "게시글을 비인정 후, 인정 수 반환.")
-    @PostMapping("/api/article/{articleId}/disagree")
+    @PostMapping("/api/articles/{articleId}/disagree")
     fun disagreeArticle(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @PathVariable articleId: Long
