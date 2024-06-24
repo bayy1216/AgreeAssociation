@@ -30,5 +30,5 @@ services:
 #      MYSQL_URL: jdbc:mysql://agree-mysql:3306/agree
 #      REDIS_HOST: agree-redis
 #      REDIS_PORT: 6379
-#      JWT_SECRET: b9ba604a99274bf89bfafdaf95ae5a9bdasdsafassaf
 #      SPRING_PROFILES_ACTIVE: local
+#    platform: linux/amd64

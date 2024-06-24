@@ -1,0 +1,35 @@
+# artillery run load-test.yml --record --key YOUR_API_KEY
+# artillery run -o myReport load-test.yml
+# artillery report myReport
+config:
+  target: http://localhost:8080
+  http:
+    defaults:
+      headers:
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpc0FjY2VzcyI6dHJ1ZSwiaWF0IjoxNzE5MTUxMzgxLCJpc3MiOiJyZWRpdHVzIiwiZXhwIjoxNzE5MTUzMTgxfQ.ACs_h0IThFtFLctb59Xj1nRA-md-F_JrDq3ZC6AaXRI"
+  phases:
+    - duration: 5 # 5 seconds
+      arrivalRate: 10 # 5 users per second
+      # rampTo: 5 # 10 users per second
+      name: "Warm up"
+
+    - duration: 5 # 5 seconds
+      arrivalRate: 10 # 10 users per second
+      name: "Ramping up"
+
+    # - duration: 5
+    #   arrivalRate: 20
+    #   name: "Sustained load"
+
+scenarios:
+  - flow:
+      - loop: # loop through the following steps 5 times
+          - get:
+              url: "/api/article?page=0&size=10"
+          - get:
+              url: "/api/article/12"
+          - get:
+              url: "/api/article/151"
+          - get:
+              url: "/api/article/12123"
+        count: 1 # 1 times

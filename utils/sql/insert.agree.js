@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 
 const insertArticleAgree = () => {
     let articleAgrees = [];
-    for (let i = 0; i < 1_0000; i++) { // 예시로 200만건
+    for (let i = 0; i < 1_000; i++) { // 예시로 200만건
         const articleId = faker.number.int({ min: 0, max: 100_0000 }); // 예시: article 테이블의 ID 범위에 맞게 설정
         const userId = faker.number.int({ min: 1, max: 9_9999 }); // 예시: users 테이블의 ID 범위에 맞게 설정
         articleAgrees.push([articleId, userId]);
@@ -26,43 +26,6 @@ const insertArticleAgree = () => {
     });
 };
 
-const insertArticleAgree2 = () => {
-    const maxAttempts = 3;
-    let attempt = 0;
-
-    const insertData = () => {
-        let articleAgrees = [];
-        for (let i = 0; i < 1_0000; i++) { // 예시로 200만건
-            const articleId = faker.number.int({ min: 0, max: 100_0000 }); // 예시: article 테이블의 ID 범위에 맞게 설정
-            const userId = faker.number.int({ min: 1, max: 9_9999 }); // 예시: users 테이블의 ID 범위에 맞게 설정
-            articleAgrees.push([articleId, userId]);
-        }
-
-        const sql = 'INSERT INTO article_agree (article_id, user_id) VALUES ?';
-        connection.query(sql, [articleAgrees], (err, results) => {
-            if (err) {
-                if (err.code === 'ER_DUP_ENTRY' || err.errno === 1062) { // Duplicate entry error
-                    console.log('Duplicate entry, retrying...');
-                    attempt++;
-                    if (attempt < maxAttempts) {
-                        insertData(); // 재시도
-                    } else {
-                        console.error('Exceeded max retry attempts. Insert failed.');
-                    }
-                } else {
-                    console.error('Error inserting data:', err);
-                }
-            } else {
-                console.log('Inserted ' + results.affectedRows + ' rows into article_agree table.');
-            }
-        });
-    };
-
-    // 60회 반복하여 데이터 삽입 시도
-    for (let i = 0; i < 24; i++) {
-        insertData();
-    }
-};
 
 // 각 테이블에 데이터 삽입
 connection.connect((err) => {
@@ -72,7 +35,7 @@ connection.connect((err) => {
     console.log('Connected to MySQL database.');
 
     // 데이터 삽입 함수 호출
-    for(let i = 0; i < 2; i++) {
+    for(let i = 0; i < 100; i++) {
         insertArticleAgree();
 
     }
