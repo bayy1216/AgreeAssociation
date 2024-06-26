@@ -28,7 +28,7 @@ class ArticleService(
     @Transactional
     fun createArticle(userId: Long,req: ArticleReq.Create) : Long {
         val command = req.toCommand()
-        val user = userRepository.findByIdOrThrow(userId)
+        val user = userRepository.getReferenceById(userId)
         val article = Article.create(command = command, author = user)
         articleRepository.save(article)
         return article.id!!
@@ -68,8 +68,8 @@ class ArticleService(
 
     @Transactional
     fun agreeArticle(userId: Long, articleId: Long): Long {
-        val user = userRepository.findByIdOrThrow(userId)
-        val article = articleRepository.findByIdOrThrow(articleId)
+        val user = userRepository.getReferenceById(userId)
+        val article = articleRepository.getReferenceById(articleId)
         if(articleAgreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
             throw IllegalArgumentException("이미 추천한 게시글입니다.")
         }
@@ -85,8 +85,8 @@ class ArticleService(
 
     @Transactional
     fun disagreeArticle(userId: Long, articleId: Long): Long {
-        val user = userRepository.findByIdOrThrow(userId)
-        val article = articleRepository.findByIdOrThrow(articleId)
+        val user = userRepository.getReferenceById(userId)
+        val article = articleRepository.getReferenceById(articleId)
         if(articleDisagreeRepository.existsByUserIdAndArticleId(userId, articleId)) {
             throw IllegalArgumentException("이미 반대한 게시글입니다.")
         }
