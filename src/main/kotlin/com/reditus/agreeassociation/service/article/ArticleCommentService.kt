@@ -29,7 +29,7 @@ class ArticleCommentService(
     @Transactional
     fun createArticleComment(articleId: Long, userId: Long, request: ArticleCommentReq.Create): Long {
         val user = userRepository.getReferenceById(userId)
-        val article = articleRepository.findByIdOrThrow(articleId)
+        val article = articleRepository.getReferenceById(articleId)
 
         val command = if(request.parentCommentId != null){
             val parentComment = articleCommentRepository.findByIdOrThrow(request.parentCommentId)

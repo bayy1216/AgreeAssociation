@@ -37,9 +37,8 @@ class ArticleService(
     @Transactional
     fun updateArticle(userId:Long, articleId: Long, req: ArticleReq.Update) {
         val command = req.toCommand()
-        val user = userRepository.findByIdOrThrow(userId)
         val article = articleRepository.findByIdOrThrow(articleId)
-        if(article.author.id != user.id) {
+        if(article.author.id != userId) {
             throw IllegalArgumentException("작성자만 수정할 수 있습니다.")
         }
         article.update(command)
