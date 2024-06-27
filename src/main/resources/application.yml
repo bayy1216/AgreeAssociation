@@ -12,7 +12,7 @@ spring: # test profile
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-      defer-datasource-initialization: true
+    defer-datasource-initialization: true # true: [ddl-auto]가 이루어지고, [sql script]가 실행 / false: [sql script]먼저 실행
   h2:
     console:
       enabled: true
@@ -21,7 +21,7 @@ spring: # test profile
     redis: # redis auto-config ?? (RedisProperties ? ???? ??)
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-  sql.init.mode: never
+  sql.init.mode: never # [sql script]를 실행하는지의 여부
 logging:
   level.org.hibernate:
     orm.jdbc.bind: trace
@@ -43,7 +43,7 @@ spring: # local profile
     activate:
       on-profile: local
   datasource:
-    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree}
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999}
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -52,6 +52,5 @@ spring: # local profile
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-      defer-datasource-initialization: true
+        dialect: org.hibernate.dialect.MySQLDialect
   sql.init.mode: never

@@ -31,6 +31,8 @@ CREATE TABLE article
     title          VARCHAR(255)   NOT NULL,
     views_count    BIGINT         NOT NULL,
     author_id      BIGINT         NOT NULL,
+    agree_count    BIGINT         DEFAULT 0 NOT NULL,
+    disagree_count BIGINT         DEFAULT 0 NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (author_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
