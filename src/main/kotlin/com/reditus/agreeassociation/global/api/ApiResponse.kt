@@ -29,7 +29,7 @@ class ApiResponse<T>(
         }
 
         fun logicFail(message: String, errorCode: String): ApiResponse<Unit> {
-            return ApiResponse(Result.FAIL, null, message, errorCode)
+            return ApiResponse(Result.SUCCESS, null, message, errorCode)
         }
 
         fun fail(message: String, errorCode: String): ApiResponse<Unit> {

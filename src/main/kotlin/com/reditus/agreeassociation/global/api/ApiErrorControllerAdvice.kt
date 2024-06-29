@@ -1,5 +1,7 @@
 package com.reditus.agreeassociation.global.api
 
+import com.reditus.agreeassociation.global.exception.ElementConflictException
+import com.reditus.agreeassociation.global.exception.InvalidPasswordException
 import com.reditus.agreeassociation.global.exception.NoAuthenticationException
 import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
@@ -52,12 +54,32 @@ class ApiErrorControllerAdvice {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    fun invalidPasswordException(e: InvalidPasswordException): ApiResponse<Unit> {
+        log.error("InvalidPasswordException ${e.userEmail}", e)
+        return ApiResponse.fail(
+            message = e.message ?: "COMMON-INVALID-PASSWORD-EXCEPTION",
+            errorCode = "INVALID-PASSWORD",
+        )
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     fun resourceNotFoundException(e: NoSuchElementException): ApiResponse<Unit> {
         log.error("NoSuchElementException", e)
         return ApiResponse.fail(
-            message = "해당 리소스를 찾을 수 없습니다.",
+            message = e.message ?: "해당 리소스를 찾을 수 없습니다.",
             errorCode = "NOT-FOUND",
+        )
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun resourceConflictException(e: ElementConflictException): ApiResponse<Unit> {
+        log.error("IllegalStateException", e)
+        return ApiResponse.fail(
+            message = e.message ?: "COMMON-CONFLICT-EXCEPTION",
+            errorCode = "CONFLICT",
         )
     }
 
