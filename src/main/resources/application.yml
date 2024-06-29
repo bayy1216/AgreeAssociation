@@ -34,14 +34,19 @@ jwt:
   access-token-expire-time: 1800000 # 30 minutes
   refresh-token-expire-time: 2592000000 # 30 days
 server:
-  shutdown: graceful
+  shutdown: immediate
   tomcat:
-    connection-timeout: 300000 # 300 seconds
+    connection-timeout: 2s # http 요청을 서버가 수락하기까지의 시간
+    keep-alive-timeout: 15s # http 요청을 서버가 수락한 후, 연결이 유지되는 시간
+    threads:
+      max: 50 # 최대 스레드 수 (default: 200) / 테스트 환경에서는 50으로 설정
+      min-spare: 5 # 최소 스레드 수 (default: 10) / 테스트 환경에서는 5로 설정
+    accept-count: 100 # 작업 대기열에 들어갈 수 있는 최대 요청 수 (default: 100)
 ---
-spring: # local profile
+spring: # dev profile
   config:
     activate:
-      on-profile: local
+      on-profile: dev
   datasource:
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999}
     username: ${MYSQL_USERNAME:root}
@@ -54,3 +59,11 @@ spring: # local profile
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   sql.init.mode: never
+server:
+  shutdown: graceful
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 200 # 최대 스레드 수
+      min-spare: 10 # 최소 스레드 수
