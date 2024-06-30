@@ -40,9 +40,10 @@ class ArticleRes {
         val content: String,
         val agreesCount: Long,
         val disagreesCount: Long,
+        val userAgreeStatus: UserAgreeStatus,
     ){
         companion object {
-            fun from(article: Article, agreesCount: Long, disagreesCount: Long): ArticleDetailDto {
+            fun from(article: Article, agreesCount: Long, disagreesCount: Long, userAgreeStatus: UserAgreeStatus): ArticleDetailDto {
                 val author = UserRes.UserInfoDto.from(article.author)
                 return ArticleDetailDto(
                     id = article.id!!,
@@ -54,8 +55,12 @@ class ArticleRes {
                     content = article.content,
                     agreesCount = agreesCount,
                     disagreesCount = disagreesCount,
+                    userAgreeStatus = userAgreeStatus,
                 )
             }
+        }
+        enum class UserAgreeStatus {
+            AGREE, DISAGREE, NONE
         }
     }
 }

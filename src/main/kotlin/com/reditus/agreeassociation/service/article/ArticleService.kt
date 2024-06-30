@@ -56,13 +56,19 @@ class ArticleService(
      * 2. 게시글 조회
      */
     @Transactional
-    fun getArticleDetail(articleId: Long): ArticleRes.ArticleDetailDto {
+    fun getArticleDetail(articleId: Long, userId: Long?): ArticleRes.ArticleDetailDto {
         articleRepository.addViewsCountById(articleId)
 
         val article = articleRepository.findByIdOrThrow(articleId)
         val agreesCount = articleAgreeRepository.countByArticleId(articleId)
         val disagreesCount = articleDisagreeRepository.countByArticleId(articleId)
-        return ArticleRes.ArticleDetailDto.from(article, agreesCount, disagreesCount)
+        val userAgreeStatus = when {
+            userId == null -> ArticleRes.ArticleDetailDto.UserAgreeStatus.NONE
+            articleAgreeRepository.existsByUserIdAndArticleId(userId, articleId) -> ArticleRes.ArticleDetailDto.UserAgreeStatus.AGREE
+            articleDisagreeRepository.existsByUserIdAndArticleId(userId, articleId) -> ArticleRes.ArticleDetailDto.UserAgreeStatus.DISAGREE
+            else -> ArticleRes.ArticleDetailDto.UserAgreeStatus.NONE
+        }
+        return ArticleRes.ArticleDetailDto.from(article, agreesCount, disagreesCount, userAgreeStatus)
     }
 
     @Transactional

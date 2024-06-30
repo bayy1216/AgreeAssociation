@@ -54,9 +54,10 @@ class ArticleController(
     @Operation(summary = "게시글 상세 조회", description = "게시글을 상세 조회합니다.")
     @GetMapping("/api/articles/{articleId}")
     fun getArticleDetail(
-        @PathVariable articleId: Long
+        @PathVariable articleId: Long,
+        @AuthenticationPrincipal loginUserDetails: LoginUserDetails?,
     ) : ApiResponse<ArticleRes.ArticleDetailDto> {
-        val res =  articleService.getArticleDetail(articleId)
+        val res =  articleService.getArticleDetail(articleId ,loginUserDetails?.userId)
         return ApiResponse.success(res)
     }
 

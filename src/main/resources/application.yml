@@ -48,10 +48,23 @@ spring: # dev profile
     activate:
       on-profile: dev
   datasource:
-    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999}
+#    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999}
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/agree}
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      data-source-properties:
+#        cachePrepStmts: true
+#        prepStmtCacheSize: 250
+#        prepStmtCacheSqlLimit: 2048
+#        useServerPrepStmts: true
+#        userLocalSessionState: true
+#        rewriteBatchedStatements: true
+#        cacheResultSetMetadata: true
+#        cacheServerConfiguration: true
+#        elideSetAutoCommits: true
+#        maintainTimeStats: false
   jpa:
     hibernate:
       ddl-auto: none
