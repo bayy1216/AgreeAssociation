@@ -1,6 +1,7 @@
 package com.reditus.agreeassociation.dto.user
 
 import com.reditus.agreeassociation.domain.user.User
+import java.time.LocalDateTime
 
 class UserRes {
     data class UserDto(
@@ -8,7 +9,7 @@ class UserRes {
         val email: String,
         val nickname: String,
         val profileImageUrl: String?,
-        val createdAt: String,
+        val createdAt: LocalDateTime,
     ){
         companion object {
             fun from(user: User): UserDto {
@@ -17,7 +18,7 @@ class UserRes {
                     email = user.email,
                     nickname = user.nickname,
                     profileImageUrl = user.profileImageUrl,
-                    createdAt = user.createdAt.toString(),
+                    createdAt = user.createdAt!!,
                 )
             }
         }

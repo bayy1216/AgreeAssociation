@@ -22,7 +22,7 @@ class ArticleRes {
                     title = article.title,
                     status = article.articleStatus,
                     viewsCount = article.viewsCount,
-                    createdAt = LocalDateTime.from(article.createdAt),
+                    createdAt = article.createdAt!!,
                     author = author,
                 )
             }
@@ -50,7 +50,7 @@ class ArticleRes {
                     title = article.title,
                     status = article.articleStatus,
                     viewsCount = article.viewsCount,
-                    createdAt = LocalDateTime.from(article.createdAt),
+                    createdAt = article.createdAt!!,
                     author = author,
                     content = article.content,
                     agreesCount = agreesCount,
