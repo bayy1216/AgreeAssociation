@@ -78,5 +78,5 @@ server:
     connection-timeout: 2s
     keep-alive-timeout: 15s
     threads:
-      max: 200 # 최대 스레드 수
+      max: 400 # 최대 스레드 수
       min-spare: 10 # 최소 스레드 수

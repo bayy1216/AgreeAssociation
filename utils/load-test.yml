@@ -2,11 +2,11 @@
 # artillery run -o myReport load-test.yml
 # artillery report myReport
 config:
-  target: http://localhost:8080
+  target: https://api.reditus.site
   http:
     defaults:
       headers:
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJpc0FjY2VzcyI6dHJ1ZSwiaWF0IjoxNzE5MTUxMzgxLCJpc3MiOiJyZWRpdHVzIiwiZXhwIjoxNzE5MTUzMTgxfQ.ACs_h0IThFtFLctb59Xj1nRA-md-F_JrDq3ZC6AaXRI"
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyMjExNSwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgyMzkxNX0.vnJ_XbL58B_UZsUJleE8ccRPSvrT8cTPpI2PTCSrFaU"
   phases:
     - duration: 5 # 5 seconds
       arrivalRate: 10 # 5 users per second
@@ -14,7 +14,7 @@ config:
       name: "Warm up"
 
     - duration: 5 # 5 seconds
-      arrivalRate: 10 # 10 users per second
+      arrivalRate: 40 # 10 users per second
       name: "Ramping up"
 
     # - duration: 5
@@ -25,11 +25,11 @@ scenarios:
   - flow:
       - loop: # loop through the following steps 5 times
           - get:
-              url: "/api/article?page=0&size=10"
+              url: "/api/articles?page=0&size=10"
           - get:
-              url: "/api/article/12"
+              url: "/api/articles/12"
           - get:
-              url: "/api/article/151"
+              url: "/api/articles/151"
           - get:
-              url: "/api/article/12123"
+              url: "/api/articles/12123"
         count: 1 # 1 times
