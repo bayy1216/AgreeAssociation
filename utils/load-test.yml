@@ -3,10 +3,10 @@
 # artillery report myReport
 config:
   target: https://api.reditus.site
-  http:
-    defaults:
-      headers:
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyNTUwOCwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgyNzMwOH0.CVD7RraMfkRRuKm86mwLOGpikhv7j-TZzDy0i5BtPuo"
+#  http:
+#    defaults:
+#      headers:
+#        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyOTAzOSwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgzMDgzOX0.png_zj5GuWl-GWHz_mkV2x3vHEt6aL_HHw5ZuzfzwDs"
   phases:
     - duration: 5 # 5 seconds
       arrivalRate: 10 # 5 users per second
