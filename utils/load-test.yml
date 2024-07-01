@@ -14,7 +14,7 @@ config:
       name: "Warm up"
 
     - duration: 5 # 5 seconds
-      arrivalRate: 20 # 10 users per second
+      arrivalRate: 50 # 10 users per second
       name: "Ramping up"
 
     # - duration: 5
