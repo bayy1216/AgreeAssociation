@@ -6,7 +6,7 @@ config:
   http:
     defaults:
       headers:
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyMjExNSwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgyMzkxNX0.vnJ_XbL58B_UZsUJleE8ccRPSvrT8cTPpI2PTCSrFaU"
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyNTUwOCwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgyNzMwOH0.CVD7RraMfkRRuKm86mwLOGpikhv7j-TZzDy0i5BtPuo"
   phases:
     - duration: 5 # 5 seconds
       arrivalRate: 10 # 5 users per second
@@ -14,7 +14,7 @@ config:
       name: "Warm up"
 
     - duration: 5 # 5 seconds
-      arrivalRate: 40 # 10 users per second
+      arrivalRate: 20 # 10 users per second
       name: "Ramping up"
 
     # - duration: 5

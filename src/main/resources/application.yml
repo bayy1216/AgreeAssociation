@@ -53,18 +53,18 @@ spring: # dev profile
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    hikari:
-#      data-source-properties:
-#        cachePrepStmts: true
-#        prepStmtCacheSize: 250
-#        prepStmtCacheSqlLimit: 2048
-#        useServerPrepStmts: true
-#        userLocalSessionState: true
-#        rewriteBatchedStatements: true
-#        cacheResultSetMetadata: true
-#        cacheServerConfiguration: true
-#        elideSetAutoCommits: true
-#        maintainTimeStats: false
+    hikari:
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        userLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
   jpa:
     hibernate:
       ddl-auto: none
@@ -78,5 +78,5 @@ server:
     connection-timeout: 2s
     keep-alive-timeout: 15s
     threads:
-      max: 400 # 최대 스레드 수
+      max: 200 # 최대 스레드 수
       min-spare: 10 # 최소 스레드 수
