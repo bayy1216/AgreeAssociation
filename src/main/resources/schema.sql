@@ -75,3 +75,8 @@ CREATE TABLE article_disagree
     FOREIGN KEY (article_id) REFERENCES article (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB;
+
+
+CREATE INDEX idx_created_at_article_status_views_count ON article (created_at DESC, article_status, views_count DESC);
+
+CREATE INDEX idx_article_id_parent_path_created_at ON article_comment (article_id, parent_path, created_at);
