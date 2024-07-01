@@ -26,8 +26,7 @@ class ArticleService(
 ) {
 
     @Transactional
-    fun createArticle(userId: Long,req: ArticleReq.Create) : Long {
-        val command = req.toCommand()
+    fun createArticle(userId: Long, command: ArticleCommand.Create) : Long {
         val user = userRepository.getReferenceById(userId)
         val article = Article.create(command = command, author = user)
         articleRepository.save(article)
@@ -35,8 +34,7 @@ class ArticleService(
     }
 
     @Transactional
-    fun updateArticle(userId:Long, articleId: Long, req: ArticleReq.Update) {
-        val command = req.toCommand()
+    fun updateArticle(userId:Long, articleId: Long, command: ArticleCommand.Update) {
         val article = articleRepository.findByIdOrThrow(articleId)
         if(article.author.id != userId) {
             throw IllegalArgumentException("작성자만 수정할 수 있습니다.")

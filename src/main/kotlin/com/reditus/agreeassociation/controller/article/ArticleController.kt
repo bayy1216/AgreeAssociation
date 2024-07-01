@@ -26,7 +26,7 @@ class ArticleController(
         @AuthenticationPrincipal loginUserDetails: LoginUserDetails,
         @Valid @RequestBody request: ArticleReq.Create
     ) : ApiResponse<Long> {
-        val res =  articleService.createArticle(loginUserDetails.userId, request)
+        val res =  articleService.createArticle(loginUserDetails.userId, request.toCommand())
         return ApiResponse.success(res)
     }
 
@@ -37,7 +37,7 @@ class ArticleController(
         @Valid @RequestBody request: ArticleReq.Update,
         @PathVariable articleId: Long
     ) : ApiResponse<Unit> {
-        articleService.updateArticle(loginUserDetails.userId, articleId, request)
+        articleService.updateArticle(loginUserDetails.userId, articleId, request.toCommand())
         return ApiResponse.success(Unit)
     }
 
