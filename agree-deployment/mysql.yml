@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agree-mysql
+  labels:
+    db: agree-mysql
+spec:
+  selector:
+    matchLabels:
+      db: agree-mysql
+  template:
+    metadata:
+      labels:
+        db: agree-mysql
+    spec:
+      containers:
+        - name: agree-mysql
+          image: mysql:8.0.26
+          env:
+#            - name: MYSQL_USER
+#              value: mysql_user
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: agree
+          resources:
+            requests:
+              cpu: 100m
+              memory: 60Mi
+            limits:
+              cpu: 200m
+              memory: 120Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: agree-mysql
+  labels:
+    db: agree-mysql
+spec:
+  type: ClusterIP
+  selector:
+    db: agree-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
