@@ -3,6 +3,7 @@ name: Build Docker Image
 on: push # push 이벤트가 발생하면 workflow가 실행됩니다.
 permissions:
   contents: read # 권한을 설정합니다.
+  security-events: write
 
 jobs:
   ci:
@@ -30,7 +31,7 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
       - name: OCI image volunerability scan # OCI 이미지 취약점 스캔
-        uses: anchore/scan-action@v2
+        uses: anchore/scan-action@v3
         id: scan
         with:
           image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
