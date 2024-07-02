@@ -4,6 +4,11 @@ on: push # push 이벤트가 발생하면 workflow가 실행됩니다.
 permissions:
   contents: read # 권한을 설정합니다.
   security-events: write
+  packages: write
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: bayy1216/AgreeAssociation
+  VERSION: ${{ github.sha }}
 
 jobs:
   ci:
@@ -25,16 +30,14 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build
 
-      - name: Build docker image and push to docker hub # Docker 이미지를 빌드하고 Docker Hub에 푸시합니다.
+      - name: Build docker image # 도커 이미지를 빌드합니다.
         run: |
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }} .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
       - name: OCI image volunerability scan # OCI 이미지 취약점 스캔
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           fail-build: false
           security-cutoff: high
           acs-report-enable: true
@@ -43,3 +46,12 @@ jobs:
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
+      - name: Log into container registry # 컨테이너 레지스트리에 로그인합니다.
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image to container registry # 컨테이너 레지스트리에 이미지를 푸시합니다.
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
