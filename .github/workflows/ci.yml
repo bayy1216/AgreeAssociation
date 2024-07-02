@@ -29,3 +29,16 @@ jobs:
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }} .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+      - name: OCI image volunerability scan # OCI 이미지 취약점 스캔
+        uses: anchore/scan-action@v2
+        id: scan
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
+          fail-build: false
+          security-cutoff: high
+          acs-report-enable: true
+      - name: Upload scan results # 스캔 결과 업로드
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}

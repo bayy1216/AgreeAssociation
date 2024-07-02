@@ -8,13 +8,13 @@ config:
 #      headers:
 #        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwiaXNBY2Nlc3MiOnRydWUsImlhdCI6MTcxOTgyOTAzOSwiaXNzIjoicmVkaXR1cyIsImV4cCI6MTcxOTgzMDgzOX0.png_zj5GuWl-GWHz_mkV2x3vHEt6aL_HHw5ZuzfzwDs"
   phases:
-    - duration: 5 # 5 seconds
-      arrivalRate: 10 # 5 users per second
-      # rampTo: 5 # 10 users per second
-      name: "Warm up"
+#    - duration: 5 # 5 seconds
+#      arrivalRate: 10 # 5 users per second
+#      # rampTo: 5 # 10 users per second
+#      name: "Warm up"
 
-    - duration: 5 # 5 seconds
-      arrivalRate: 50 # 10 users per second
+    - duration: 15 # 5 seconds
+      arrivalRate: 100 # 10 users per second
       name: "Ramping up"
 
     # - duration: 5
