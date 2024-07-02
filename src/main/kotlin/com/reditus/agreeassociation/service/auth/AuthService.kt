@@ -54,9 +54,9 @@ class AuthService(
     }
 
     /**
-     * 토큰을 검증하고 새로운 토큰을 발급
-     * 현재는 DB의 유저를 조회하지 않고 토큰만 검증
-     * 추후 DB에서 유저의 유효성을 검증해야 할수도 있음
+     * 토큰을 검증하고 새로운 토큰을 발급한다.
+     * - 현재는 DB의 유저를 조회하지 않고 토큰만 검증
+     * - 추후 DB에서 유저의 유효성을 검증해야 할수도 있음
      */
     fun refresh(rawRefreshToken: String): AuthRes.RefreshResponse {
         jwtUtils.validateToken(rawRefreshToken)
