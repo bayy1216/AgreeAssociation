@@ -65,13 +65,23 @@ spring: # dev profile
 #        cacheServerConfiguration: true
 #        elideSetAutoCommits: true
 #        maintainTimeStats: false
+# ------------ debug ------------
+#        profileSQL: true
+#        logger: Slf4JLogger
+#        maxQuerySizeToLog: 999999
   jpa:
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: false
   sql.init.mode: never
+  flyway:
+    enabled: true
+    fail-on-missing-locations: true # 스크립트 파일을 저장하는 위치를 못 찾을때 실패할지 여부
+    baseline-on-migrate: true # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 초기 버전으로 마이그레이션 파일을 적용할지 여부
+    baseline-version: 1 # Flyway가 초기화되지 않은 데이터베이스에 마이그레이션을 적용할 때 버전을 설정
 server:
   shutdown: graceful
   tomcat:
