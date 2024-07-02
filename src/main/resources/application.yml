@@ -22,6 +22,8 @@ spring: # test profile
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
   sql.init.mode: never # [sql script]를 실행하는지의 여부
+  flyway:
+    enabled: false
 logging:
   level.org.hibernate:
     orm.jdbc.bind: trace
