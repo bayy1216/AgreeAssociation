@@ -19,6 +19,16 @@ jobs:
       - name: Checkout Repository # 저장소를 체크아웃합니다.
         uses: actions/checkout@v4
 
+      - name: Cache Gradle dependencies # Gradle 의존성을 캐시합니다.
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Set up JDK 17 # JDK 17을 설정합니다.
         uses: actions/setup-java@v4
         with:
